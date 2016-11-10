@@ -12,11 +12,13 @@ import java.awt.Shape;
 import java.awt.geom.RoundRectangle2D;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-
+import javax.swing.table.DefaultTableModel;
 
 
 /**
@@ -38,10 +40,40 @@ public class InterfazVistas extends javax.swing.JFrame {
         //forma interfacez
         this.setUndecorated(true);
         initComponents();
+        obtenerVentas();
         this.setLocationRelativeTo(null);
         Shape forma = new RoundRectangle2D.Double(0,0,this.getBounds().width,this.getBounds().height,27,27);
         AWTUtilities.setWindowShape(this, forma);
     }
+    //empiezo mi recuperacion
+    void obtenerVentas (){
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("ID/ ventas");
+        modelo.addColumn("Comprador");
+        modelo.addColumn("Modelo de Auto");
+        modelo.addColumn("Tipo de venta");
+        tablaDetalle.setModel (modelo);
+        
+        String sql = "SELECT * FROM DetalleVenta";
+        String datos[] = new String [4];
+        Statement st;
+        try{
+                st = cn.createStatement();
+                ResultSet rs = st.executeQuery(sql);
+                while(rs.next()){
+                    datos[0] = rs.getString(1);
+                    datos[1] = rs.getString(2);
+                    datos[2] = rs.getString(3);
+                    datos[3] = rs.getString(4);
+                    modelo.addRow(datos);
+                }
+                tablaDetalle.setModel(modelo);
+        } catch (SQLException ex) {
+            Logger.getLogger(InterfazVistas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+               
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -73,30 +105,11 @@ public class InterfazVistas extends javax.swing.JFrame {
         jScrollPane5 = new javax.swing.JScrollPane();
         jTextPane5 = new javax.swing.JTextPane();
         jButton1 = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tablaDetalle = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        faltas =new faltas();
-        Herramientas = new Herramientas();
-        balance = new balance();
-        estadoAsistencia = new PanelEstadoAsistencia();
-        
-        //////agregando   titulos  
-        
-        estadoAsistencia.setBorder(javax.swing.BorderFactory.createTitledBorder("estado"));
-        faltas.setBorder(javax.swing.BorderFactory.createTitledBorder("Faltas"));
-        Herramientas.setBorder(javax.swing.BorderFactory.createTitledBorder("Herramientas "));
-        balance.setBorder(javax.swing.BorderFactory.createTitledBorder("Balances"));
-        
-     /////agregar   Jpanel    
-     jTabbedPane1.addTab("EstadoAsistencia", estadoAsistencia);
-     jTabbedPane1.addTab("Faltas", faltas);
-     jTabbedPane1.addTab("Herramientas",Herramientas);
-     jTabbedPane1.addTab("Balance",balance);
-     
-     
-     
-     
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -208,6 +221,21 @@ public class InterfazVistas extends javax.swing.JFrame {
         jScrollPane5.setViewportView(jTextPane5);
 
         jButton1.setText("Buscar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        tablaDetalle.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane3.setViewportView(tablaDetalle);
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -218,11 +246,15 @@ public class InterfazVistas extends javax.swing.JFrame {
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 330, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 339, Short.MAX_VALUE)
                 .addComponent(jRadioButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jRadioButton2)
                 .addGap(19, 19, 19))
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -234,7 +266,9 @@ public class InterfazVistas extends javax.swing.JFrame {
                         .addComponent(jRadioButton1)
                         .addComponent(jButton1))
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(292, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -267,7 +301,7 @@ public class InterfazVistas extends javax.swing.JFrame {
             .addGap(0, 387, Short.MAX_VALUE)
         );
 
-      //  jTabbedPane1.addTab("Main", jPanel3);
+        jTabbedPane1.addTab("Main", jPanel3);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMG/rojo.png"))); // NOI18N
         jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -393,6 +427,10 @@ public class InterfazVistas extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -422,7 +460,7 @@ public class InterfazVistas extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {   
+            public void run() {
                 new InterfazVistas().setVisible(true);
             }
         });
@@ -446,17 +484,14 @@ public class InterfazVistas extends javax.swing.JFrame {
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextPane jTextPane5;
+    private javax.swing.JTable tablaDetalle;
     private javax.swing.JTextPane txapellido;
     private javax.swing.JTextPane txfecha;
     private javax.swing.JTextPane txnombre;
-    private javax.swing.JPanel faltas;
-    private javax.swing.JPanel Herramientas;
-    private javax.swing.JPanel balance;
-    private javax.swing.JPanel estadoAsistencia;
-    
     // End of variables declaration//GEN-END:variables
 }
