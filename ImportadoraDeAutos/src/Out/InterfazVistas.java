@@ -110,6 +110,25 @@ public class InterfazVistas extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+		
+		// ini
+        faltas =new faltas();
+        Herramientas = new Herramientas();
+        balance = new balance();
+        estadoAsistencia = new PanelEstadoAsistencia();
+        
+        //////agregando   titulos  
+        
+        estadoAsistencia.setBorder(javax.swing.BorderFactory.createTitledBorder("estado"));
+        faltas.setBorder(javax.swing.BorderFactory.createTitledBorder("Faltas"));
+        Herramientas.setBorder(javax.swing.BorderFactory.createTitledBorder("Herramientas "));
+        balance.setBorder(javax.swing.BorderFactory.createTitledBorder("Balances"));
+        
+     /////agregar   Jpanel    
+     jTabbedPane1.addTab("EstadoAsistencia", estadoAsistencia);
+     jTabbedPane1.addTab("Faltas", faltas);
+     jTabbedPane1.addTab("Herramientas",Herramientas);
+     jTabbedPane1.addTab("Balance",balance);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -493,5 +512,13 @@ public class InterfazVistas extends javax.swing.JFrame {
     private javax.swing.JTextPane txapellido;
     private javax.swing.JTextPane txfecha;
     private javax.swing.JTextPane txnombre;
+	
+	
+	// nuevos
+	private javax.swing.JPanel faltas;
+    private javax.swing.JPanel Herramientas;
+    private javax.swing.JPanel balance;
+    private javax.swing.JPanel estadoAsistencia;
+    
     // End of variables declaration//GEN-END:variables
 }
