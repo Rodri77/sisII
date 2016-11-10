@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package umss.sis.importadora.vista;
+ package Out;
 
 import Out.ConexionBD;
 import Out.InterfazVistas;
@@ -53,10 +53,10 @@ public class PanelEstadoAsistencia extends JPanel {
     }
 
     private void load() {
-        add(Box.createRigidArea(new Dimension(400, 40)));
+        add(Box.createRigidArea(new Dimension(200, 40)));
         add(titulo, BorderLayout.PAGE_START);
         add(filtroDepartamento);
-        add(Box.createRigidArea(new Dimension(400, 40)));
+        add(Box.createRigidArea(new Dimension(200, 40)));
         add(scroll, BorderLayout.CENTER);
     }
 
