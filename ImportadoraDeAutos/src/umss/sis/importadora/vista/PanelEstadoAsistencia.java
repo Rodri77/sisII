@@ -10,7 +10,8 @@ import Out.InterfazVistas;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.sql.Array;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -48,7 +49,14 @@ public class PanelEstadoAsistencia extends JPanel {
     private void init() {
         titulo = new JLabel("Estado De Asistencia De Empleados");
         filtroDepartamento = new JPanel(new GridLayout(1, 3));
-        departamentosCB = new JComboBox(fillComboBox().toArray());
+        departamentosCB = new JComboBox(llenarComboBox().toArray());
+        departamentosCB.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                departamentoSeleccionado(departamentosCB.getSelectedItem().toString());
+            }
+
+        });
         filtroDepartamento.add(departamentosCB);
     }
 
@@ -84,7 +92,7 @@ public class PanelEstadoAsistencia extends JPanel {
         scroll.setPreferredSize(new Dimension(500, 150));
     }
 
-    private ArrayList<String> fillComboBox() {
+    private ArrayList<String> llenarComboBox() {
         ArrayList<String> departamento;
         departamento = new ArrayList();
         try {
@@ -98,5 +106,29 @@ public class PanelEstadoAsistencia extends JPanel {
             Logger.getLogger(InterfazVistas.class.getName()).log(Level.SEVERE, null, ex);
         }
         return departamento;
+    }
+
+//    private ArrayList<String> llenarTablaEstados(ResultSet empleado) {
+//        ArrayList<String> empleados;
+//        //empleados = empleado.;
+//        
+//        return empleados;
+//    }
+
+    private ResultSet departamentoSeleccionado(String content) {
+        System.out.println(content + "seleccionado");
+        ResultSet emps = null;
+//        try {
+//            PreparedStatement empleados = cn.prepareStatement("SELECT CIEmpleado, Nombre \n"
+//                                                            + "FROM Empleado\n"
+//                                                            + "WHERE IdDepartamento = (SELECT ID \n"
+//                                                                                    + "FROM Departamento\n"
+//                                                                                    + "WHERE Departamento = )");
+//            emps = empleados.executeQuery();
+//
+//        } catch (SQLException ex) {
+//            Logger.getLogger(InterfazVistas.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+        return emps;
     }
 }
