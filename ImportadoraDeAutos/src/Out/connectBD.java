@@ -29,10 +29,10 @@ public class connectBD {
             
             try {
                 //Cargamos el Driver MySQL
-                Class.forName("Driver");
+                Class.forName("com.mysql.jdbc.Driver");
                 //direccion de la base de datos
-                //conect = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","root");
-                conect = DriverManager.getConnection("jdbc:mysql://127.8.127.130:3306/sis2","adminlEbMSuM","35kes6wiqNAk");
+               //conect = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","root");
+                conect = DriverManager.getConnection("jdbc:mysql:///sis2-miler.rhcloud.com/phpmyadmin/sis2","adminlEbMSuM","sis");
                 System.out.println("conexion establecida");
                 JOptionPane.showMessageDialog(null,"Conectado");
                 
