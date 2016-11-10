@@ -1,0 +1,3 @@
+select e.CIEmpleado, e.Nombre, c.Cargo, s.Estado
+from Empleado e, Departamento d, Cargo c, EmpleadoCargo r, Asistencia a, EstadoAsistencia s 
+where e.IdDepartamento = d.ID and r.CIEmpleado=e.CIEmpleado and r.IDCargo = c.ID and a.CIEmpleado=e.CIEmpleado and a.IDEstado=s.ID and d.Departamento = 'taller'
