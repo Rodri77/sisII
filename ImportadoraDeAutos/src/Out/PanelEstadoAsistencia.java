@@ -39,16 +39,17 @@ public class PanelEstadoAsistencia extends JPanel {
     private ConexionBD con = new ConexionBD();
     private Connection cn = con.conexion();
 
-    public PanelEstadoAsistencia() {
-        init();
+    public PanelEstadoAsistencia(Consultas  Consultas ) {
+        init(Consultas);
         fillTable();
         load();
+        
     }
 
-    private void init() {
+    private void init(Consultas Consultas) {
         titulo = new JLabel("Estado De Asistencia De Empleados");
         filtroDepartamento = new JPanel(new GridLayout(1, 3));
-        departamentosCB = new JComboBox(fillComboBox().toArray());
+        departamentosCB = new JComboBox(Consultas.departementos().toArray());
         filtroDepartamento.add(departamentosCB);
     }
 
@@ -84,19 +85,5 @@ public class PanelEstadoAsistencia extends JPanel {
         scroll.setPreferredSize(new Dimension(500, 150));
     }
 
-    private ArrayList<String> fillComboBox() {
-        ArrayList<String> departamento;
-        departamento = new ArrayList();
-        try {
-            PreparedStatement departamentos = cn.prepareStatement("SELECT Departamento FROM Departamento");
-            ResultSet deps = departamentos.executeQuery();
-            while (deps.next()) {
-                departamento.add(deps.getString("Departamento"));
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(InterfazVistas.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return departamento;
-    }
+    
 }

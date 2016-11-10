@@ -28,9 +28,11 @@ import javax.swing.table.DefaultTableModel;
 public class InterfazVistas extends javax.swing.JFrame {
 
     int x,y;
-    ConexionBD con = new ConexionBD();
-    Connection cn = con.conexion();
+   
     
+    
+    
+    Consultas con= new Consultas();
     
     
     /**
@@ -47,31 +49,10 @@ public class InterfazVistas extends javax.swing.JFrame {
     }
     //empiezo mi recuperacion
     void obtenerVentas (){
-        DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("ID/ ventas");
-        modelo.addColumn("Comprador");
-        modelo.addColumn("Modelo de Auto");
-        modelo.addColumn("Tipo de venta");
-        tablaDetalle.setModel (modelo);
         
-        String sql = "SELECT * FROM DetalleVenta";
-        String datos[] = new String [4];
-        Statement st;
-        try{
-                st = cn.createStatement();
-                ResultSet rs = st.executeQuery(sql);
-                while(rs.next()){
-                    datos[0] = rs.getString(1);
-                    datos[1] = rs.getString(2);
-                    datos[2] = rs.getString(3);
-                    datos[3] = rs.getString(4);
-                    modelo.addRow(datos);
-                }
-                tablaDetalle.setModel(modelo);
-        } catch (SQLException ex) {
-            Logger.getLogger(InterfazVistas.class.getName()).log(Level.SEVERE, null, ex);
-        }
-               
+        tablaDetalle.setModel (con.obtenerVentas());
+        
+        
     }
     
 
@@ -115,7 +96,7 @@ public class InterfazVistas extends javax.swing.JFrame {
         faltas =new faltas();
         Herramientas = new Herramientas();
         balance = new balance();
-        estadoAsistencia = new PanelEstadoAsistencia();
+        estadoAsistencia = new PanelEstadoAsistencia(con);
         
         //////agregando   titulos  
         
@@ -320,7 +301,7 @@ public class InterfazVistas extends javax.swing.JFrame {
             .addGap(0, 387, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Main", jPanel3);
+       // jTabbedPane1.addTab("Main", jPanel3);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMG/rojo.png"))); // NOI18N
         jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -431,19 +412,7 @@ public class InterfazVistas extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel3MouseExited
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        try {
-            PreparedStatement pps = cn.prepareStatement("INSERT INTO cliente (Nombre,dirección,crédito) VALUES (?,?,?)");
-            pps.setString(1, txnombre.getText());
-            pps.setString(2, txapellido.getText());
-            pps.setString(3, txfecha.getText());
-
-            pps.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Datos Guardados");
-            
-
-        } catch (SQLException ex) {
-            Logger.getLogger(InterfazVistas.class.getName()).log(Level.SEVERE, null, ex);
-        }
+       
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
